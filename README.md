@@ -50,3 +50,18 @@ py -m pytest -v
 The suite contains ten independent UI/form test cases. Authentication success
 and failure cases are intentionally not submitted because no test account or
 non-production endpoint was provided.
+
+## Intentional failure demonstration
+
+`tests/test_expected_failure.py` contains one deliberately incorrect title
+expectation for demonstrating a pytest failure. Run it separately:
+
+```powershell
+py -m pytest -v tests/test_expected_failure.py
+```
+
+The regular login tests can be run without this demonstration case:
+
+```powershell
+py -m pytest -v --ignore=tests/test_expected_failure.py
+```
