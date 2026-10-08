@@ -1,5 +1,7 @@
 """UI and form contract tests for the UTC login page."""
 
+from urllib.parse import urlparse
+
 
 def test_login_page_shows_expected_title_and_heading(login_page):
     assert login_page.driver.title == "Đăng nhập"
@@ -43,3 +45,17 @@ def test_remember_me_can_be_toggled(login_page):
     assert remember_me.is_selected()
     remember_me.click()
     assert not remember_me.is_selected()
+
+
+def test_login_submit_control_and_post_form_are_available(login_page):
+    submit = login_page.find(login_page.SUBMIT)
+    form = login_page.find(login_page.LOGIN_FORM)
+    redirect = login_page.find(login_page.REDIRECT)
+
+    assert submit.is_displayed()
+    assert submit.is_enabled()
+    assert submit.get_attribute("value") == "Đăng nhập"
+    assert form.get_attribute("method").lower() == "post"
+    assert urlparse(form.get_attribute("action")).path == "/Login"
+    assert redirect.get_attribute("type") == "hidden"
+    assert redirect.get_attribute("value")
