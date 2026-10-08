@@ -59,3 +59,9 @@ def test_login_submit_control_and_post_form_are_available(login_page):
     assert urlparse(form.get_attribute("action")).path == "/Login"
     assert redirect.get_attribute("type") == "hidden"
     assert redirect.get_attribute("value")
+
+
+def test_forgot_password_link_points_to_password_recovery(login_page):
+    forgot_password = login_page.find(login_page.FORGOT_PASSWORD)
+    assert forgot_password.is_displayed()
+    assert urlparse(forgot_password.get_attribute("href")).path == "/Login/GetPass"
