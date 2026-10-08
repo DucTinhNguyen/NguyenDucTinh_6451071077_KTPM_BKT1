@@ -11,3 +11,9 @@ def test_username_field_is_located_by_name_and_has_expected_placeholder(login_pa
     username = login_page.find(login_page.USERNAME)
     assert username.get_attribute("type") == "text"
     assert username.get_attribute("placeholder") == "Tên đăng nhập"
+
+
+def test_username_field_accepts_entered_text(login_page):
+    username = login_page.find(login_page.USERNAME)
+    username.send_keys("selenium.test")
+    assert username.get_attribute("value") == "selenium.test"
