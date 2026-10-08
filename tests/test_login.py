@@ -65,3 +65,10 @@ def test_forgot_password_link_points_to_password_recovery(login_page):
     forgot_password = login_page.find(login_page.FORGOT_PASSWORD)
     assert forgot_password.is_displayed()
     assert urlparse(forgot_password.get_attribute("href")).path == "/Login/GetPass"
+
+
+def test_utc_email_login_link_uses_google_accounts(login_page):
+    email_login = login_page.find(login_page.UTC_EMAIL_LOGIN)
+    assert email_login.is_displayed()
+    assert "Đăng nhập bằng e-mail UTC" in email_login.text
+    assert urlparse(email_login.get_attribute("href")).hostname == "accounts.google.com"
