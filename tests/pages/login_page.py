@@ -9,6 +9,7 @@ class LoginPage:
     USERNAME = (By.NAME, "username")
     PASSWORD = (By.NAME, "userpwd")
     REMEMBER_ME = (By.ID, "persistent")
+    REMEMBER_ME_CONTROL = (By.CSS_SELECTOR, "label.check[for='persistent']")
     SUBMIT = (By.CSS_SELECTOR, "form[action='/Login'] input[type='submit']")
     FORGOT_PASSWORD = (By.CSS_SELECTOR, "a[href='/Login/GetPass']")
     UTC_EMAIL_LOGIN = (

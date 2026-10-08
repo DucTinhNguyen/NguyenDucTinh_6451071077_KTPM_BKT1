@@ -41,9 +41,10 @@ def test_remember_me_is_unchecked_by_default(login_page):
 
 def test_remember_me_can_be_toggled(login_page):
     remember_me = login_page.find(login_page.REMEMBER_ME)
-    remember_me.click()
+    control = login_page.find(login_page.REMEMBER_ME_CONTROL)
+    control.click()
     assert remember_me.is_selected()
-    remember_me.click()
+    control.click()
     assert not remember_me.is_selected()
 
 
