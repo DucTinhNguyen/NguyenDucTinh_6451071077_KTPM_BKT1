@@ -17,3 +17,9 @@ def test_username_field_accepts_entered_text(login_page):
     username = login_page.find(login_page.USERNAME)
     username.send_keys("selenium.test")
     assert username.get_attribute("value") == "selenium.test"
+
+
+def test_password_field_uses_password_locator_and_masks_input(login_page):
+    password = login_page.find(login_page.PASSWORD)
+    assert password.get_attribute("type") == "password"
+    assert password.get_attribute("placeholder") == "Mật khẩu"
