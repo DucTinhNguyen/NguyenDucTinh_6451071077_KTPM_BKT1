@@ -1,75 +1,60 @@
 """UI and form contract tests for the UTC login page."""
 
-from urllib.parse import urlparse
-
 
 def test_login_page_shows_expected_title_and_heading(login_page):
-    assert login_page.driver.title == "Đăng nhập"
-    heading = login_page.driver.find_element("tag name", "h1")
-    assert heading.text == "Không chỉ là một giải pháp quản lý"
+    assert login_page.is_on_login_page()
+    assert login_page.get_title() == "Đăng nhập"
+    assert login_page.get_heading() == "Không chỉ là một giải pháp quản lý"
 
 
 def test_username_field_is_located_by_name_and_has_expected_placeholder(login_page):
-    username = login_page.find(login_page.USERNAME)
-    assert username.get_attribute("type") == "text"
-    assert username.get_attribute("placeholder") == "Tên đăng nhập"
+    assert login_page.get_username_type() == "text"
+    assert login_page.get_username_placeholder() == "Tên đăng nhập"
 
 
 def test_username_field_accepts_entered_text(login_page):
-    username = login_page.find(login_page.USERNAME)
-    username.send_keys("selenium.test")
-    assert username.get_attribute("value") == "selenium.test"
+    login_page.enter_username("selenium.test")
+    assert login_page.get_username_value() == "selenium.test"
 
 
 def test_password_field_uses_password_locator_and_masks_input(login_page):
-    password = login_page.find(login_page.PASSWORD)
-    assert password.get_attribute("type") == "password"
-    assert password.get_attribute("placeholder") == "Mật khẩu"
+    assert login_page.get_password_type() == "password"
+    assert login_page.get_password_placeholder() == "Mật khẩu"
 
 
 def test_password_field_accepts_entered_text(login_page):
-    password = login_page.find(login_page.PASSWORD)
-    password.send_keys("test-only-password")
-    assert password.get_attribute("value") == "test-only-password"
+    login_page.enter_password("test-only-password")
+    assert login_page.get_password_value() == "test-only-password"
 
 
 def test_remember_me_is_unchecked_by_default(login_page):
-    remember_me = login_page.find(login_page.REMEMBER_ME)
-    assert remember_me.get_attribute("type") == "checkbox"
-    assert not remember_me.is_selected()
+    assert login_page.get_remember_me_type() == "checkbox"
+    assert not login_page.is_remember_me_selected()
 
 
 def test_remember_me_can_be_toggled(login_page):
-    remember_me = login_page.find(login_page.REMEMBER_ME)
-    control = login_page.find(login_page.REMEMBER_ME_CONTROL)
-    control.click()
-    assert remember_me.is_selected()
-    control.click()
-    assert not remember_me.is_selected()
+    login_page.toggle_remember_me()
+    assert login_page.is_remember_me_selected()
+    login_page.toggle_remember_me()
+    assert not login_page.is_remember_me_selected()
 
 
 def test_login_submit_control_and_post_form_are_available(login_page):
-    submit = login_page.find(login_page.SUBMIT)
-    form = login_page.find(login_page.LOGIN_FORM)
-    redirect = login_page.find(login_page.REDIRECT)
-
-    assert submit.is_displayed()
-    assert submit.is_enabled()
-    assert submit.get_attribute("value") == "Đăng nhập"
-    assert form.get_attribute("method").lower() == "post"
-    assert urlparse(form.get_attribute("action")).path == "/Login"
-    assert redirect.get_attribute("type") == "hidden"
-    assert redirect.get_attribute("value")
+    assert login_page.is_submit_displayed()
+    assert login_page.is_submit_enabled()
+    assert login_page.get_submit_text() == "Đăng nhập"
+    assert (login_page.get_form_method() or "").lower() == "post"
+    assert login_page.get_form_action_path() == "/Login"
+    assert login_page.get_redirect_input_type() == "hidden"
+    assert login_page.get_redirect_value()
 
 
 def test_forgot_password_link_points_to_password_recovery(login_page):
-    forgot_password = login_page.find(login_page.FORGOT_PASSWORD)
-    assert forgot_password.is_displayed()
-    assert urlparse(forgot_password.get_attribute("href")).path == "/Login/GetPass"
+    assert login_page.is_forgot_password_displayed()
+    assert login_page.get_forgot_password_path() == "/Login/GetPass"
 
 
 def test_utc_email_login_link_uses_google_accounts(login_page):
-    email_login = login_page.find(login_page.UTC_EMAIL_LOGIN)
-    assert email_login.is_displayed()
-    assert "Đăng nhập bằng e-mail UTC" in email_login.text
-    assert urlparse(email_login.get_attribute("href")).hostname == "accounts.google.com"
+    assert login_page.is_utc_email_login_displayed()
+    assert "Đăng nhập bằng e-mail UTC" in login_page.get_utc_email_login_text()
+    assert login_page.get_utc_email_login_host() == "accounts.google.com"

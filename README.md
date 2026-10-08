@@ -7,6 +7,23 @@ The tests locate elements by their observed `name` and `id` attributes, and chec
 the login form and its links. They do not submit credentials or attempt to
 authenticate against the live service.
 
+## Project structure
+
+```text
+base/
+  base_test.py       # Shared browser setup
+pages/
+  base_page.py       # Common wait, click, typing, and read operations
+  login_page.py      # Login page locators and page actions
+tests/
+  test_login.py      # Ten UI/form test cases
+conftest.py          # pytest browser and page fixtures
+```
+
+The layout follows the slide's separation of shared test setup, page objects,
+and test scripts. Locators are private to the page object; assertions remain
+in the test cases.
+
 ## Setup
 
 ```powershell
