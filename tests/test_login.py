@@ -35,3 +35,11 @@ def test_remember_me_is_unchecked_by_default(login_page):
     remember_me = login_page.find(login_page.REMEMBER_ME)
     assert remember_me.get_attribute("type") == "checkbox"
     assert not remember_me.is_selected()
+
+
+def test_remember_me_can_be_toggled(login_page):
+    remember_me = login_page.find(login_page.REMEMBER_ME)
+    remember_me.click()
+    assert remember_me.is_selected()
+    remember_me.click()
+    assert not remember_me.is_selected()
