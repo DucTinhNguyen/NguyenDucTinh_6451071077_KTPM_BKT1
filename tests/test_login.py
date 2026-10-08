@@ -23,3 +23,9 @@ def test_password_field_uses_password_locator_and_masks_input(login_page):
     password = login_page.find(login_page.PASSWORD)
     assert password.get_attribute("type") == "password"
     assert password.get_attribute("placeholder") == "Mật khẩu"
+
+
+def test_password_field_accepts_entered_text(login_page):
+    password = login_page.find(login_page.PASSWORD)
+    password.send_keys("test-only-password")
+    assert password.get_attribute("value") == "test-only-password"
