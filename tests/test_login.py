@@ -29,3 +29,9 @@ def test_password_field_accepts_entered_text(login_page):
     password = login_page.find(login_page.PASSWORD)
     password.send_keys("test-only-password")
     assert password.get_attribute("value") == "test-only-password"
+
+
+def test_remember_me_is_unchecked_by_default(login_page):
+    remember_me = login_page.find(login_page.REMEMBER_ME)
+    assert remember_me.get_attribute("type") == "checkbox"
+    assert not remember_me.is_selected()
